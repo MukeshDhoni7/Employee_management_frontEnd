@@ -8,6 +8,8 @@ const ListEmployees = () => {
 
     const[employees,setEmployees] = useState([]);
 
+    const [loading,setLoading] = useState(true);
+
     const navigator = useNavigate();
 
 useEffect(()=>
@@ -22,6 +24,10 @@ useEffect(()=>
         }catch(err)
         {
             console.error(err);
+        }
+        finally
+        {
+            setLoading(false);
         }
     }
 
@@ -45,6 +51,18 @@ const deleteEmployees = () =>
 const updateEmployees = () =>
 {
     navigator("/update-employees")
+}
+
+if (loading) {
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-600">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-white border-t-cyan-500"></div>
+
+            <p className="mt-4 text-xl font-bold text-white">
+                Loading Employees...
+            </p>
+        </div>
+    );
 }
 
 

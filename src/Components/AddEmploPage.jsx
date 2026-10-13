@@ -11,6 +11,9 @@ const AddEmploPage = () => {
   const [email,setEmail] = useState('');
 
 
+  const[loading,setLoading] = useState(false);
+
+
   const [errors,setErrors] = useState({});
 
   const goNavigate = useNavigate();
@@ -27,13 +30,14 @@ const AddEmploPage = () => {
 
     const saveEmplo = async() =>
     {
+      setLoading(true);
       try
       { 
         let getResponse = await createEmployees(getEmployees);
         console.log(getResponse.status);
       
          toast.success("Data Created Successfully")
-        
+      
         console.log(getResponse);
         goNavigate("/employees")
         setFirstName('');
@@ -46,6 +50,10 @@ const AddEmploPage = () => {
         console.log(error.response.data)
         toast.error("Unable to create Data")
       }
+      finally
+      {
+        setLoading(false);
+      }
 
 
 
@@ -55,6 +63,17 @@ const AddEmploPage = () => {
 
     console.log(getEmployees)
 
+  }
+
+
+
+  if(loading)
+  {
+    return <div className="w-full min-h-screen bg-black flex flex-col justify-center items-center">
+      <div className="h-16 w-16 rounded-full border-4 border-white border-b-cyan-400 animate-spin">
+      </div>
+        <h1 className="mt-6 text-xl font-bold font-serif text-white">Adding Employees</h1>
+    </div>
   }
 
 
